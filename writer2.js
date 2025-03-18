@@ -19,7 +19,7 @@ document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
     let selectedOption = &apos;rewrite&apos;; // Default option
     let selectedLanguage = &apos;en&apos;; // Default language
     let selectedTone = &apos;Professional&apos;; // Default tone
-    let selectedSize = &apos;Medium&apos;; // Default size
+    let selectedSize = &apos;auto&apos;; // Default size
 
     // Get all dropdown options
     const languageOptions = document.querySelectorAll(&apos;#languageDropdown + .dropdown-menu .dropdown-item&apos;);
@@ -41,7 +41,7 @@ document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
     rewriteOptions.classList.remove(&apos;d-none&apos;);
     selectedLanguageElement.textContent = &apos;EN&apos;;
     selectedToneElement.textContent = &apos;Professional&apos;;
-    selectedSizeElement.textContent = &apos;M&apos;;
+    selectedSizeElement.textContent = &apos;A&apos;;
 
     // Handle option selection
     optionButtons.forEach(button => {
@@ -95,36 +95,6 @@ document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
                 selectedLanguageElement.textContent = &apos;IT&apos;;
             } else if (selectedLanguage === &apos;es&apos;) {
                 selectedLanguageElement.textContent = &apos;ES&apos;;
-            } else if (selectedLanguage === &apos;es-la&apos;) {
-                selectedLanguageElement.textContent = &apos;ES&apos;;
-            } else if (selectedLanguage === &apos;es-es&apos;) {
-                selectedLanguageElement.textContent = &apos;ES&apos;;
-            } else if (selectedLanguage === &apos;ms&apos;) {
-                selectedLanguageElement.textContent = &apos;MS&apos;;
-            } else if (selectedLanguage === &apos;pt&apos;) {
-                selectedLanguageElement.textContent = &apos;PT&apos;;
-            } else if (selectedLanguage === &apos;pt-br&apos;) {
-                selectedLanguageElement.textContent = &apos;PT&apos;;
-            } else if (selectedLanguage === &apos;pt-pt&apos;) {
-                selectedLanguageElement.textContent = &apos;PT&apos;;
-            } else if (selectedLanguage === &apos;sv&apos;) {
-                selectedLanguageElement.textContent = &apos;SV&apos;;
-            } else if (selectedLanguage === &apos;tr&apos;) {
-                selectedLanguageElement.textContent = &apos;TR&apos;;
-            } else if (selectedLanguage === &apos;nl&apos;) {
-                selectedLanguageElement.textContent = &apos;NL&apos;;
-            } else if (selectedLanguage === &apos;is&apos;) {
-                selectedLanguageElement.textContent = &apos;IS&apos;;
-            } else if (selectedLanguage === &apos;da&apos;) {
-                selectedLanguageElement.textContent = &apos;DA&apos;;
-            } else if (selectedLanguage === &apos;fi&apos;) {
-                selectedLanguageElement.textContent = &apos;FI&apos;;
-            } else if (selectedLanguage === &apos;el&apos;) {
-                selectedLanguageElement.textContent = &apos;EL&apos;;
-            } else if (selectedLanguage === &apos;hu&apos;) {
-                selectedLanguageElement.textContent = &apos;HU&apos;;
-            } else if (selectedLanguage === &apos;pl&apos;) {
-                selectedLanguageElement.textContent = &apos;PL&apos;;
             }
         });
     });
@@ -153,7 +123,9 @@ document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
             this.classList.add(&apos;active&apos;);
 
             // Update the selected size display
-            if (selectedSize === &apos;Very Short&apos;) {
+            if (selectedSize === &apos;auto&apos;) {
+                selectedSizeElement.innerHTML = &apos;<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image"&apos;;
+            } else if (selectedSize === &apos;Very Short&apos;) {
                 selectedSizeElement.textContent = &apos;VS&apos;;
             } else if (selectedSize === &apos;Short&apos;) {
                 selectedSizeElement.textContent = &apos;S&apos;;
