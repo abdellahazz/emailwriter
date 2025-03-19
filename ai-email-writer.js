@@ -251,8 +251,10 @@ document.addEventListener('DOMContentLoaded', function () {
         editorContent.removeAttribute('data-placeholder'); // Remove the placeholder
         // Hide loading screen and restore placeholder
 loadingScreen.classList.remove('show');
-editorContent.setAttribute('data-placeholder', 'hello,\npresentaation u send not correct.\nmissing slides for Q2 sles,\nclient need full report.\nfix this fast and send again before noon,\nimportant');
-
+// Restore the placeholder if editor is empty
+if (editorContent.innerHTML.trim() === '') {
+    editorContent.setAttribute('data-placeholder', 'hello,\npresentaation u send not correct.\nmissing slides for Q2 sles,\nclient need full report.\nfix this fast and send again before noon,\nimportant');
+}
 
         // Show loading state
         improveButton.textContent = 'Processing...';
