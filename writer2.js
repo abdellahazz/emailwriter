@@ -1,4 +1,3 @@
-    <script>
 document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
     const editorContent = document.getElementById(&apos;editor-content&apos;);
     const recipientInput = document.getElementById(&apos;recipient-input&apos;);
@@ -330,4 +329,4 @@ document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
             });
     });
 });
-    </script>
+
