@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const improveButton = document.getElementById('improve-button');
     const timeSavedElement = document.getElementById('time-saved');
     const errorMessageElement = document.getElementById('error-message');
-    const loadingScreen = document.querySelector('.loading-screen'); // Get loading screen element
+    const loadingScreen = document.querySelector('.loading-screen');
 
     // Get option buttons
     const optionButtons = document.querySelectorAll('.option-button');
@@ -243,8 +243,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear the time saved message
         timeSavedElement.textContent = '';
 
-        // Show loading screen
+        // Show loading screen and hide placeholder
         loadingScreen.classList.add('show');
+        editorContent.classList.add('hide-placeholder');
 
         // Clear the editor content
         editorContent.innerHTML = '';
@@ -305,8 +306,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                // Hide loading screen
+                // Hide loading screen and show placeholder again
                 loadingScreen.classList.remove('show');
+                editorContent.classList.remove('hide-placeholder');
 
                 // Update the editor with the improved text
                 const improvedText = data.mail_body;
@@ -357,8 +359,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 displayNextLine();
             })
             .catch(error => {
-                // Hide loading screen
+                // Hide loading screen and show placeholder again
                 loadingScreen.classList.remove('show');
+                editorContent.classList.remove('hide-placeholder');
                 console.error('Error:', error);
             })
             .finally(() => {
