@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Email Writer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Main styles */
+        :root {
+            --mailmaestro-purple: #7b61ff;
+            --mailmaestro-light-purple: #f2f0ff;
+            --mailmaestro-gray-100: #f8f8f8;
+            --mailmaestro-gray-200: #f1f1f1;
+            --mailmaestro-gray-300: #e5e5e5;
+            --mailmaestro-gray-400: #d1d1d1;
+            --mailmaestro-gray-500: #8e8e8e;
+        }
+
+        body {
+            background-color: transparent;
+            font-family: "DM Sans", sans-serif; /* Set default font to DM Sans */
+        }
+
+        /* Background and gradients */
+        .bg-gradient-custom {
+            background-image: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
+        }
+
+        .bg-gradient-light {
+            background-image: linear-gradient(to right, rgba(123, 97, 255, 0.2), rgba(59, 130, 246, 0.2), rgba(168, 85, 247, 0.2));
+        }
+
+        .text-gradient {
+            background-image: linear-gradient(to right, var(--mailmaestro-purple), #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Utility classes */
+        .max-w-4xl {
+            max-width: 896px;
+        }
+
+        .translate-y-10 {
+            transform: translateY(10px);
+        }
+
+        .smooth-transition {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hover-shadow-xl:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+            transform: translateY(-2px);
+        }
+
+        .square-button {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Colors */
+        .bg-purple {
+            background-color: var(--mailmaestro-purple);
+        }
+
+        .bg-purple-light {
+            background-color: var(--mailmaestro-light-purple);
+        }
+
+        .text-purple {
+            color: var(--mailmaestro-purple);
+        }
+
+        /* Button styles */
+        .btn-purple {
+            background-color: var(--mailmaestro-purple);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-purple:hover {
+            background-color: rgba(123, 97, 255, 0.9);
+            color: white;
+        }
+
+        .btn-light {
+            background-color: #fff;
+            border: 1px solid var(--mailmaestro-gray-300);
+            transition: all 0.2s ease;
+        }
+
+        .btn-light:hover {
+            background-color: var(--mailmaestro-gray-200);
+        }
+
+        .btn-extend {
+            font-size: 0.7rem;
+            line-height: 1.5;
+            padding: 0.15rem 0.5rem;
+        }
+
+        .btn-editor {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-editor:hover {
+            background-color: white;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-editor.active {
+            background-color: var(--mailmaestro-light-purple);
+            border-color: var(--mailmaestro-purple);
+            color: var(--mailmaestro-purple);
+        }
+
+        /* Dropdown styles */
+        .dropdown-menu {
+            padding: 0.5rem 0;
+            border-radius: 0.5rem;
+            border: 1px solid var(--mailmaestro-gray-300);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            max-height: 280px;
+            overflow-y: auto;
+            min-width: 200px; /* Ensure dropdown has a minimum width */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .dropdown-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap; /* Prevent text from wrapping */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Add ellipsis for overflow */
+            font-family: "DM Sans", sans-serif; /* Set font for dropdown items */
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--mailmaestro-gray-200);
+        }
+
+        .dropdown-item.active {
+            background-color: var(--mailmaestro-light-purple);
+            color: var(--mailmaestro-purple);
+        }
+
+        .dropdown-divider {
+            margin: 0.25rem 0;
+            border-top: 1px solid var(--mailmaestro-gray-300);
+        }
+
+        .ms-1 {
+            color: rgb(116, 104, 255);
+        }
+
+        .language-code {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: rgb(116, 104, 255);
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            background-color: rgba(116, 104, 255, 0.12);
+            border: 1px solid rgba(116, 104, 255, 0.12);
+            border-radius: 4px;
+            padding: 4px;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+
+        #selected-language {
+            display: flex;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: rgb(116, 104, 255);
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            background-color: rgba(116, 104, 255, 0.12);
+            border: 1px solid rgba(116, 104, 255, 0.12);
+            border-radius: 4px;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+
+        #selected-size {
+            display: flex;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: rgb(116, 104, 255);
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            background-color: rgba(116, 104, 255, 0.12);
+            border: 1px solid rgba(116, 104, 255, 0.12);
+            border-radius: 4px;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+
+        #selected-tone {
+            color: rgb(116, 104, 255);
+        }
+
+        .add-more-option {
+            color: var(--mailmaestro-purple);
+        }
+
+        .auto-tone-icon {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--mailmaestro-purple);
+        }
+
+        /* Active option button */
+        .option-button.active {
+            background-color: var(--mailmaestro-light-purple);
+            border-color: var(--mailmaestro-purple);
+            color: var(--mailmaestro-purple);
+        }
+
+        /* Editor styles */
+        .editor-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .editor-content {
+            min-height: 200px;
+        }
+
+        .divider {
+            width: 1px;
+            height: 24px;
+            background-color: var(--mailmaestro-gray-400);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-down {
+            animation: slideDown 0.4s ease-out forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Toast styles */
+        .toast-container {
+            z-index: 1050;
+        }
+
+        .improve-button-active {
+            background-color: #7468FF !important;
+            color: #FFFFFF !important;
+        }
+
+        .copy-button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .copied-text {
+            font-size: 0.8rem;
+            color: var(--mailmaestro-purple);
+            font-weight: 600;
+            display: none;
+        }
+
+        .error-message {
+            font-size: 0.8rem;
+            color: red;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .copied-text {
+            display: none; /* Initially hidden */
+            color: green;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Greyed-out input field */
+        input::placeholder {
+            color: var(--mailmaestro-gray-500);
+            opacity: 1; /* Ensure full opacity for the placeholder */
+        }
+
+        /* Placeholder for contenteditable */
+        [contenteditable][data-placeholder]:empty::before {
+            content: attr(data-placeholder);
+            color: var(--mailmaestro-gray-500);
+            pointer-events: none;
+        }
+
+        /* Logo and refresh button styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+        }
+
+        .refresh-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--mailmaestro-purple);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .refresh-button:hover {
+            color: rgba(123, 97, 255, 0.9);
+        }
+
+        /* Style for the image inside the selected language element */
+        .language-image {
+            width: 24px; /* Set the width to match the container */
+            height: 24px; /* Set the height to match the container */
+            object-fit: contain; /* Ensure the image scales proportionally */
+        }
+.down-image {
+            width: 16px; /* Set the width to match the container */
+            height: 16px; /* Set the height to match the container */
+            object-fit: contain; /* Ensure the image scales proportionally */
+        }
+        
+        
+       
+#editor-content {
+    max-height: 100px; /* Fixed height for the editor content */
+    overflow-y: auto; /* Enable scrolling only for the editor content */
+    position: relative;
+    overflow-x: hidden;
+}
+
+#composer-container {
+    position: relative;
+    max-width: auto;
+    margin: 0 auto;
+    overflow: hidden; /* Prevent scrolling on the container */
+}
+
+.email-composer {
+    position: relative;
+    height: 100%; /* Maintain the height of the parent */
+    overflow: hidden; /* Prevent scrolling on the composer */
+}
+
+.btn-light {
+    background-color: #fff;
+    border: 1px solid var(--mailmaestro-gray-300);
+    transition: all 0.2sease;
+}
+
+[contenteditable][data-placeholder]:empty::before {
+    white-space: pre-line;
+    color: var(--mailmaestro-gray-500);
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.copy-button-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.copied-text {
+    position: absolute;
+    bottom: -25px;
+    right: 0;
+    color: var(--mailmaestro-purple);
+    font-size: 0.8rem;
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div id="composer-container" class="position-relative w-100 mx-auto" style="max-width: auto;">
+        <div class="p-1 rounded-3 bg-gradient-light shadow">
+            <div class="email-composer bg-white rounded-3 overflow-hidden">
+                <!-- Header -->
+                <div class="d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <div class="logo-container">
+                            <img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/66d211a0f0ca2a7034239f27_webclip.avif" alt="MailMaestro Logo" class="logo">
+                            <h6 class="mb-0 fs-6">MailMaestro - ChatGPT</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Refresh button -->
+                <div class="px-4 py-2">
+                    <button class="refresh-button" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                        Generate New Email
+                    </button>
+                </div>
+
+                <!-- Email Composer -->
+                <div class="p-4 bg-light">
+                    <!-- Sender field -->
+                    <div class="mb-3">
+                        <input
+                            type="text"
+                            placeholder="Optional: Your name"
+                            class="form-control border bg-white"
+                            id="sender-input"
+                        >
+                    </div>
+                    <!-- Recipient field -->
+                    <div class="mb-3">
+                        <input
+                            type="text"
+                            placeholder="Optional: recipient&apos;s name"
+                            class="form-control border bg-white"
+                            id="recipient-input"
+                        >
+                    </div>
+
+                    <!-- Rich text editor -->
+                    <div class="bg-white rounded border overflow-hidden mb-3 shadow-sm">
+                        <!-- Toolbar -->
+                        <div class="editor-toolbar p-2 bg-light border-bottom">
+                            <button class="btn btn-sm btn-editor" data-command="bold">
+                                <i class="fas fa-bold"></i>
+                            </button>
+                            <button class="btn btn-sm btn-editor" data-command="italic">
+                                <i class="fas fa-italic"></i>
+                            </button>
+                            <button class="btn btn-sm btn-editor" data-command="underline">
+                                <i class="fas fa-underline"></i>
+                            </button>
+                            <button class="btn btn-sm btn-editor" data-command="strikeThrough">
+                                <s class="small">S</s>
+                            </button>
+
+                            <div class="divider mx-2"></div>
+
+                            <button class="btn btn-sm btn-editor" data-command="insertUnorderedList">
+                                <i class="fas fa-list-ul"></i>
+                            </button>
+                            <button class="btn btn-sm btn-editor" data-command="insertOrderedList">
+                                <i class="fas fa-list-ol"></i>
+                            </button>
+
+                            <div class="divider mx-2"></div>
+
+                            <button class="btn btn-sm btn-editor" data-command="createLink">
+                                <i class="fas fa-link"></i>
+                            </button>
+                        </div>
+
+                        <!-- Content editable area -->
+                        <div
+                            id="editor-content"
+                            contenteditable="true"
+                            class="p-4 outline-none editor-content"
+                            data-placeholder="hello,
+presentaation u send not correct.
+missing slides for Q2 sles,
+client need full report.
+fix this fast and send again before noon,
+important"
+                        ></div>
+                    </div>
+
+                    <div id="time-saved" class="text-center mt-2" style="margin-bottom:3%;"></div>
+
+                    <!-- Improve buttons -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-4">
+                            <button class="btn btn-light w-100 small option-button" data-option="fix-typos">
+                                Fix typos
+                            </button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-light w-100 small option-button" data-option="polish">
+                                Polish
+                            </button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-light w-100 small option-button" data-option="rewrite">
+                                Rewrite
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Options for Fix Typos -->
+                    <div id="fix-typos-options" class="row g-2 mb-3 d-none">
+                        <div class="col-12">
+                            <div class="bg-white rounded border py-2 px-3">
+                                Correct spelling and grammar
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Options for Polish -->
+                    <div id="polish-options" class="row g-2 mb-3 d-none">
+                        <div class="col-12">
+                            <div class="bg-white rounded border py-2 px-3">
+                                Improved phrases and sentences
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Options for Rewrite -->
+                    <div id="rewrite-options" class="row g-2 mb-3">
+                        <div class="col-3">
+                            <div class="dropdown">
+                                <button class="bg-white rounded border py-2 px-3 d-flex align-items-center justify-content-between w-100" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span id="selected-language">EN</span>
+                                    <span class="small ms-1"> <img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4422a1fad3da458fba1cc_png_qque4.png" alt="Auto" class="down-image me-2"></span>
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="languageDropdown">
+                                    <li class="dropdown-item px-3 py-2" data-value="xx">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image me-2">
+                                            <span>Auto</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="en">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">EN</span>
+                                            <span>English</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="en-gb">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">EN</span>
+                                            <span>English (GB)</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="en-us">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">EN</span>
+                                            <span>English (US)</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="de">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">DE</span>
+                                            <span>German</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="de-ch">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">DE</span>
+                                            <span>German (CH)</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="fr">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">FR</span>
+                                            <span>French</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="it">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">IT</span>
+                                            <span>Italian</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="es">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">ES</span>
+                                            <span>Spanish</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="dropdown">
+                                <button class="bg-white rounded border py-2 px-3 d-flex align-items-center justify-content-between w-100" type="button" id="toneDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span id="selected-tone">Casual</span>
+                                    <span class="small ms-1"> <img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4422a1fad3da458fba1cc_png_qque4.png" alt="Auto" class="down-image me-2"></span>
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="toneDropdown">
+                                    <li class="dropdown-item px-3 py-2" data-value="auto">
+                                        Auto
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Professional Friendly">
+                                        Professional Friendly
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Professional Informal">
+                                        Professional Informal
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Professional">
+                                        Professional
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Casual">
+                                        Casual
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Urgent">
+                                        Urgent
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Appreciative">
+                                        Appreciative
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Funny">
+                                        Funny
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="dropdown">
+                                <button class="bg-white rounded border py-2 px-3 d-flex align-items-center justify-content-between w-100" type="button" id="sizeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span id="selected-size">S</span>
+                                    <span class="small ms-1"> <img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4422a1fad3da458fba1cc_png_qque4.png" alt="Auto" class="down-image me-2"></span>
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="sizeDropdown">
+                                    <li class="dropdown-item px-3 py-2" data-value="auto">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image me-2">
+                                            <span>Auto</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Very Short">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">VS</span>
+                                            <span>Very Short</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Short">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">S</span>
+                                            <span>Short</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Medium">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">M</span>
+                                            <span>Medium</span>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item px-3 py-2" data-value="Detailed">
+                                        <div class="d-flex align-items-center">
+                                            <span class="language-code me-2">L</span>
+                                            <span>Long</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- Improve and Copy buttons -->
+<div class="copy-button-container">
+    
+    <button id="improve-button" class="btn btn-purple w-100 py-3 rounded small fw-medium">
+        Improve →
+    </button>
+    <button class="btn btn-purple" title="Copy to Clipboard">
+        <i class="fas fa-copy"></i>
+    </button>
+    <div class="copied-text">Copied!</div>
+</div>
+                    <div id="error-message" class="error-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
+    const editorContent = document.getElementById(&apos;editor-content&apos;);
+    const recipientInput = document.getElementById(&apos;recipient-input&apos;);
+    const senderInput = document.getElementById(&apos;sender-input&apos;);
+    const improveButton = document.getElementById(&apos;improve-button&apos;);
+    const timeSavedElement = document.getElementById(&apos;time-saved&apos;);
+    const errorMessageElement = document.getElementById(&apos;error-message&apos;);
+
+    // Get option buttons
+    const optionButtons = document.querySelectorAll(&apos;.option-button&apos;);
+
+    // Get language, tone, and size dropdowns
+    const languageDropdown = document.getElementById(&apos;languageDropdown&apos;);
+    const toneDropdown = document.getElementById(&apos;toneDropdown&apos;);
+    const sizeDropdown = document.getElementById(&apos;sizeDropdown&apos;);
+
+    // Track selected values
+    let selectedOption = &apos;rewrite&apos;; // Default option
+    let selectedLanguage = &apos;en&apos;; // Default language
+    let selectedTone = &apos;Professional&apos;; // Default tone
+    let selectedSize = &apos;auto&apos;; // Default size
+
+    // Get all dropdown options
+    const languageOptions = document.querySelectorAll(&apos;#languageDropdown + .dropdown-menu .dropdown-item&apos;);
+    const toneOptions = document.querySelectorAll(&apos;#toneDropdown + .dropdown-menu .dropdown-item&apos;);
+    const sizeOptions = document.querySelectorAll(&apos;#sizeDropdown + .dropdown-menu .dropdown-item&apos;);
+
+    // Get options containers
+    const fixTyposOptions = document.getElementById(&apos;fix-typos-options&apos;);
+    const polishOptions = document.getElementById(&apos;polish-options&apos;);
+    const rewriteOptions = document.getElementById(&apos;rewrite-options&apos;);
+
+    // Get the selected options elements
+    const selectedLanguageElement = document.getElementById(&apos;selected-language&apos;);
+    const selectedToneElement = document.getElementById(&apos;selected-tone&apos;);
+    const selectedSizeElement = document.getElementById(&apos;selected-size&apos;);
+
+    // Set initial active option
+    document.querySelector(&apos;.option-button[data-option="rewrite"]&apos;).classList.add(&apos;active&apos;);
+    rewriteOptions.classList.remove(&apos;d-none&apos;);
+    selectedLanguageElement.textContent = &apos;EN&apos;;
+    selectedToneElement.textContent = &apos;Professional&apos;;
+    selectedSizeElement.textContent = &apos;A&apos;;
+
+    // Handle option selection
+    optionButtons.forEach(button => {
+        button.addEventListener(&apos;click&apos;, function () {
+            // Remove active class from all buttons
+            optionButtons.forEach(btn => btn.classList.remove(&apos;active&apos;));
+            this.classList.add(&apos;active&apos;);
+            selectedOption = this.getAttribute(&apos;data-option&apos;);
+
+            // Hide all options
+            fixTyposOptions.classList.add(&apos;d-none&apos;);
+            polishOptions.classList.add(&apos;d-none&apos;);
+            rewriteOptions.classList.add(&apos;d-none&apos;);
+
+            // Show the appropriate options based on the selected option
+            if (selectedOption === &apos;fix-typos&apos;) {
+                fixTyposOptions.classList.remove(&apos;d-none&apos;);
+            } else if (selectedOption === &apos;polish&apos;) {
+                polishOptions.classList.remove(&apos;d-none&apos;);
+            } else if (selectedOption === &apos;rewrite&apos;) {
+                rewriteOptions.classList.remove(&apos;d-none&apos;);
+            }
+        });
+    });
+
+    // Handle language selection
+    languageOptions.forEach(option => {
+        option.addEventListener(&apos;click&apos;, function () {
+            selectedLanguage = this.getAttribute(&apos;data-value&apos;);
+
+            // Update active state
+            languageOptions.forEach(opt => opt.classList.remove(&apos;active&apos;));
+            this.classList.add(&apos;active&apos;);
+
+            // Update the selected language display
+            if (selectedLanguage === &apos;xx&apos;) {
+                selectedLanguageElement.innerHTML = &apos;<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image"&apos;;
+            } else if (selectedLanguage === &apos;en&apos;) {
+                selectedLanguageElement.textContent = &apos;EN&apos;;
+            } else if (selectedLanguage === &apos;en-gb&apos;) {
+                selectedLanguageElement.textContent = &apos;EN&apos;;
+            } else if (selectedLanguage === &apos;en-us&apos;) {
+                selectedLanguageElement.textContent = &apos;EN&apos;;
+            } else if (selectedLanguage === &apos;de&apos;) {
+                selectedLanguageElement.textContent = &apos;DE&apos;;
+            } else if (selectedLanguage === &apos;de-ch&apos;) {
+                selectedLanguageElement.textContent = &apos;DE&apos;;
+            } else if (selectedLanguage === &apos;fr&apos;) {
+                selectedLanguageElement.textContent = &apos;FR&apos;;
+            } else if (selectedLanguage === &apos;it&apos;) {
+                selectedLanguageElement.textContent = &apos;IT&apos;;
+            } else if (selectedLanguage === &apos;es&apos;) {
+                selectedLanguageElement.textContent = &apos;ES&apos;;
+            }
+        });
+    });
+
+    // Handle tone selection
+    toneOptions.forEach(option => {
+        option.addEventListener(&apos;click&apos;, function () {
+            selectedTone = this.getAttribute(&apos;data-value&apos;);
+
+            // Update active state
+            toneOptions.forEach(opt => opt.classList.remove(&apos;active&apos;));
+            this.classList.add(&apos;active&apos;);
+
+            // Update the selected tone display
+            selectedToneElement.textContent = selectedTone;
+        });
+    });
+
+    // Handle size selection
+    sizeOptions.forEach(option => {
+        option.addEventListener(&apos;click&apos;, function () {
+            selectedSize = this.getAttribute(&apos;data-value&apos;);
+
+            // Update active state
+            sizeOptions.forEach(opt => opt.classList.remove(&apos;active&apos;));
+            this.classList.add(&apos;active&apos;);
+
+            // Update the selected size display
+            if (selectedSize === &apos;auto&apos;) {
+                selectedSizeElement.innerHTML = &apos;<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image"&apos;;
+            } else if (selectedSize === &apos;Very Short&apos;) {
+                selectedSizeElement.textContent = &apos;VS&apos;;
+            } else if (selectedSize === &apos;Short&apos;) {
+                selectedSizeElement.textContent = &apos;S&apos;;
+            } else if (selectedSize === &apos;Medium&apos;) {
+                selectedSizeElement.textContent = &apos;M&apos;;
+            } else if (selectedSize === &apos;Detailed&apos;) {
+                selectedSizeElement.textContent = &apos;L&apos;;
+            }
+        });
+    });
+
+    // Text editor buttons
+    const editorButtons = document.querySelectorAll(&apos;.btn-editor&apos;);
+    editorButtons.forEach(button => {
+        button.addEventListener(&apos;click&apos;, function () {
+            const command = this.getAttribute(&apos;data-command&apos;);
+
+            if (command === &apos;createLink&apos;) {
+                const url = prompt(&apos;Enter the link URL&apos;);
+                if (url) {
+                    document.execCommand(command, false, url);
+                }
+            } else {
+                document.execCommand(command, false, null);
+            }
+
+            // Toggle active state for applicable commands
+            if ([&apos;bold&apos;, &apos;italic&apos;, &apos;underline&apos;, &apos;strikeThrough&apos;].includes(command)) {
+                this.classList.toggle(&apos;active&apos;);
+            }
+        });
+    });
+
+    // Handle copy button
+    const copyButton = document.querySelector(&apos;button[title="Copy to Clipboard"]&apos;);
+    let copiedText = document.querySelector(&apos;.copied-text&apos;);
+
+    // Function to get formatted text without HTML tags
+    function getFormattedText() {
+        let content = editorContent.innerHTML
+            .replace(/<\/?b>/g, &apos;**&apos;) // Replace bold tags with **
+            .replace(/<\/?i>/g, &apos;*&apos;) // Replace italic tags with *
+            .replace(/<\/?u>/g, &apos;_&apos;) // Replace underline tags with _
+            .replace(/<\/?strike>/g, &apos;~&apos;) // Replace strike tags with ~
+            .replace(/<\/?div>/g, &apos;\n\n&apos;) // Replace div tags with paragraph breaks
+            .replace(/<\/?li>/g, &apos;\n• &apos;) // Replace list items with bullet points
+            .replace(/<\/?ol>/g, &apos;\n&apos;) // Replace ordered list tags
+            .replace(/<\/?ul>/g, &apos;\n&apos;) // Replace unordered list tags
+            .replace(/<\/?br>/g, &apos;\n&apos;) // Replace line breaks
+            .replace(/<\/?[pP]>/g, &apos;\n\n&apos;); // Replace paragraph tags
+
+        // Handle links by extracting the text and URL
+        content = content.replace(/<a\s+href\s*=\s*["&apos;](.*?)["&apos;](.*?)>(.*?)<\/a>/g, &apos;$3 ($1)&apos;);
+
+        // Remove any remaining HTML tags
+        content = content.replace(/<\/?[^>]+(>|$)/g, &apos;&apos;);
+
+        // Handle nested lists by indenting
+        content = content.replace(/(\n• )(\n• )/g, &apos;\n  • $2&apos;);
+
+        return content;
+    }
+
+    copyButton.addEventListener(&apos;click&apos;, function () {
+        const formattedText = getFormattedText();
+        navigator.clipboard.writeText(formattedText).then(function () {
+            copiedText.style.display = &apos;block&apos;;
+            setTimeout(function () {
+                copiedText.style.display = &apos;none&apos;;
+            }, 1000);
+        }, function (err) {
+            console.error(&apos;Could not copy text:&apos;, err);
+        });
+    });
+
+    // Improve button click event
+    improveButton.addEventListener(&apos;click&apos;, function () {
+        const recipientName = recipientInput.value.trim();
+        const senderName = senderInput.value.trim();
+        let emailBody = editorContent.innerHTML.trim();
+
+        // If the editor is empty, use the placeholder text
+        if (!emailBody) {
+            emailBody = editorContent.getAttribute(&apos;data-placeholder&apos;);
+        }
+
+        // Clear the time saved message
+        timeSavedElement.textContent = &apos;&apos;;
+
+        // Show loading state
+        improveButton.textContent = &apos;Processing...&apos;;
+        improveButton.disabled = true;
+
+        // Map selected option to API kind
+        const kindMap = {
+            &apos;fix-typos&apos;: &apos;IMPROVE_TYPOS&apos;,
+            &apos;polish&apos;: &apos;IMPROVE_POLISH&apos;,
+            &apos;rewrite&apos;: &apos;IMPROVE_REWRITE&apos;
+        };
+
+        const kind = kindMap[selectedOption] || &apos;IMPROVE_REWRITE&apos;; // Default to rewrite
+
+        // Prepare data for API call
+        const requestData = {
+            kind: kind,
+            sender: senderName,
+            recipients_line: recipientName,
+            stream: true,
+            language: selectedLanguage,
+            tone: selectedTone,
+            output_length: selectedSize,
+            draft_id: crypto.randomUUID(),
+            prompt_input: emailBody
+        };
+
+        console.log(&apos;Request Data:&apos;, requestData);
+
+        // Set start time
+        const startTime = new Date();
+
+        // Make API call to backend endpoint
+        fetch(&apos;https://app.maestrolabs.com/emails/website/improve&apos;, {
+            method: &apos;POST&apos;,
+            headers: {
+                &apos;Content-Type&apos;: &apos;application/json&apos;,
+                &apos;Origin&apos;: &apos;https://www.maestrolabs.com/some-page.html&apos;
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        console.error(&apos;Response Status:&apos;, response.status);
+                        console.error(&apos;Response Text:&apos;, text);
+                        if (text.includes(&apos;Request was throttled&apos;)) {
+                            errorMessageElement.innerHTML = &apos;Your token has expired. To get more emails and enjoy a 14-day free trial with more features, install it on <a href="https://appsource.microsoft.com/en-us/product/office/WA200005168?mktcmpid=-get-teamsmaestro-subscri&amp;src=website" target="_blank" style="color: blue; text-decoration: underline;">Outlook</a> or <a href="https://chromewebstore.google.com/detail/mailmaestro-gmail-ai-assi/hjdkljkgenkplcgeecgjjgijpipnneai?pli=1&amp;utm_source=website&amp;utm_medium=organic&amp;utm_campaign=-get-teamsmaestro-subscri" target="_blank" style="color: blue; text-decoration: underline;">Gmail</a>.&apos;;
+                            errorMessageElement.style.display = &apos;block&apos;;
+                        } else {
+                            throw new Error(`Server responded with ${response.status}: ${text}`);
+                        }
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update the editor with the improved text
+                const improvedText = data.mail_body;
+                const lines = improvedText.split(&apos;\n&apos;);
+                let currentLineIndex = 0;
+
+                function displayNextLine() {
+                    if (currentLineIndex < lines.length) {
+                        const line = lines[currentLineIndex];
+                        const words = line.split(&apos; &apos;);
+                        let currentWordIndex = 0;
+
+                        function displayNextWord() {
+                            if (currentWordIndex < words.length) {
+                                const word = words[currentWordIndex];
+                                const textNode = document.createTextNode(word + &apos; &apos;);
+                                editorContent.appendChild(textNode);
+                                currentWordIndex++;
+                                setTimeout(displayNextWord, 50);
+                            } else {
+                                const lineBreak = document.createElement(&apos;br&apos;);
+                                editorContent.appendChild(lineBreak);
+                                currentLineIndex++;
+
+                                // If this is the last line, calculate time saved
+                                if (currentLineIndex === lines.length) {
+                                    const endTime = new Date();
+                                    const timeDiff = endTime - startTime;
+                                    const seconds = Math.floor(timeDiff / 1000);
+
+                                    // Calculate saved time based on the observed ratio (44.83x)
+                                    const savedSeconds = Math.floor(seconds * 44.83);
+                                    const savedMinutes = Math.floor(savedSeconds / 60);
+                                    const remainingSavedSeconds = savedSeconds % 60;
+
+                                    // Display the time saved message
+                                    timeSavedElement.innerHTML = `<strong>Written in ${seconds} secs</strong> and saved <span class="text-success">${savedMinutes} min</span> and <span class="text-success">${remainingSavedSeconds} sec</span> of your time.`;
+                                } else {
+                                    setTimeout(displayNextLine, 50);
+                                }
+                            }
+                        }
+
+                        displayNextWord();
+                    }
+                }
+
+                editorContent.innerHTML = &apos;&apos;; // Clear the editor content
+                displayNextLine();
+            })
+            .catch(error => {
+                console.error(&apos;Error:&apos;, error);
+            })
+            .finally(() => {
+                // Reset button state
+                improveButton.textContent = &apos;Improve →&apos;;
+                improveButton.disabled = false;
+            });
+    });
+});
+    </script>
+</body>
+</html>
