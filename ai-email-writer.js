@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     rewriteOptions.classList.remove('d-none');
     selectedLanguageElement.textContent = 'EN';
     selectedToneElement.textContent = 'Professional';
-    selectedSizeElement.textContent = 'M';
+    selectedSizeElement.textContent = 'Meduim';
 
     // Handle option selection
     optionButtons.forEach(button => {
