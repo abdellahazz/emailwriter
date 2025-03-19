@@ -246,9 +246,6 @@ document.addEventListener('DOMContentLoaded', function () {
         improveButton.textContent = 'Processing...';
         improveButton.disabled = true;
 
-        // Disable editor content while processing
-        editorContent.contentEditable = 'false';
-
         // Map selected option to API kind
         const kindMap = {
             'fix-typos': 'IMPROVE_TYPOS',
@@ -337,9 +334,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                     // Display the time saved message
                                     timeSavedElement.innerHTML = `<strong>Written in ${seconds} secs</strong> and saved <span class="text-success">${savedMinutes} min</span> and <span class="text-success">${remainingSavedSeconds} sec</span> of your time.`;
-
-                                    // Re-enable editor content
-                                    editorContent.contentEditable = 'true';
                                 } else {
                                     setTimeout(displayNextLine, 50);
                                 }
@@ -355,15 +349,11 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Re-enable editor content if there's an error
-                editorContent.contentEditable = 'true';
             })
             .finally(() => {
                 // Reset button state
                 improveButton.textContent = 'Improve →';
                 improveButton.disabled = false;
-                // Re-enable editor content in case it wasn't re-enabled already
-                editorContent.contentEditable = 'true';
             });
     });
 });
