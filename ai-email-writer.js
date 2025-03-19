@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const improveButton = document.getElementById('improve-button');
     const timeSavedElement = document.getElementById('time-saved');
     const errorMessageElement = document.getElementById('error-message');
+    const loadingScreen = document.querySelector('.loading-screen'); // Get loading screen element
 
     // Get option buttons
     const optionButtons = document.querySelectorAll('.option-button');
@@ -242,6 +243,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear the time saved message
         timeSavedElement.textContent = '';
 
+        // Show loading screen
+        loadingScreen.classList.add('show');
+
+        // Clear the editor content
+        editorContent.innerHTML = '';
+
         // Show loading state
         improveButton.textContent = 'Processing...';
         improveButton.disabled = true;
@@ -298,6 +305,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
+                // Hide loading screen
+                loadingScreen.classList.remove('show');
+
                 // Update the editor with the improved text
                 const improvedText = data.mail_body;
                 const lines = improvedText.split('\n');
@@ -344,10 +354,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
 
-                editorContent.innerHTML = ''; // Clear the editor content
                 displayNextLine();
             })
             .catch(error => {
+                // Hide loading screen
+                loadingScreen.classList.remove('show');
                 console.error('Error:', error);
             })
             .finally(() => {
