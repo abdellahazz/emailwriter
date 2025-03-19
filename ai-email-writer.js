@@ -193,7 +193,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to get formatted text without HTML tags
     function getFormattedText() {
-        let content = editorContent.innerHTML
+        // Get the inner HTML content with formatting
+        let content = editorContent.innerHTML;
+        
+        // For plain text with formatting cues (optional)
+        let plainText = content
             .replace(/<\/?b>/g, '**') // Replace bold tags with **
             .replace(/<\/?i>/g, '*') // Replace italic tags with *
             .replace(/<\/?u>/g, '_') // Replace underline tags with _
@@ -205,28 +209,43 @@ document.addEventListener('DOMContentLoaded', function () {
             .replace(/<\/?br>/g, '\n') // Replace line breaks
             .replace(/<\/?[pP]>/g, '\n\n'); // Replace paragraph tags
 
-        // Handle links by extracting the text and URL
-        content = content.replace(/<a\s+href\s*=\s*["'](.*?)["'](.*?)>(.*?)<\/a>/g, '$3 ($1)');
+        // Handle links by extracting the text and URL for plain text
+        plainText = plainText.replace(/<a\s+href\s*=\s*["'](.*?)["'](.*?)>(.*?)<\/a>/g, '$3 ($1)');
 
-        // Remove any remaining HTML tags
-        content = content.replace(/<\/?[^>]+(>|$)/g, '');
+        // Remove any remaining HTML tags from plain text
+        plainText = plainText.replace(/<\/?[^>]+(>|$)/g, '');
 
-        // Handle nested lists by indenting
-        content = content.replace(/(\n• )(\n• )/g, '\n  • $2');
-
-        return content;
+        // For HTML format, we'll use the original content
+        return {
+            html: content,
+            plainText: plainText
+        };
     }
 
     copyButton.addEventListener('click', function () {
         const formattedText = getFormattedText();
-        navigator.clipboard.writeText(formattedText).then(function () {
-            copiedText.style.display = 'block';
-            setTimeout(function () {
-                copiedText.style.display = 'none';
-            }, 1000);
-        }, function (err) {
-            console.error('Could not copy text:', err);
+        
+        // Create a Blob with HTML content
+        const htmlBlob = new Blob([formattedText.html], { type: 'text/html' });
+        const plainBlob = new Blob([formattedText.plainText], { type: 'text/plain' });
+
+        // Create a clipboard item with both HTML and plain text
+        const clipboardItem = new ClipboardItem({
+            'text/html': htmlBlob,
+            'text/plain': plainBlob
         });
+
+        // Write to clipboard
+        navigator.clipboard.write([clipboardItem])
+            .then(function () {
+                copiedText.style.display = 'block';
+                setTimeout(function () {
+                    copiedText.style.display = 'none';
+                }, 1000);
+            })
+            .catch(function (err) {
+                console.error('Could not copy text:', err);
+            });
     });
 
     // Improve button click event
