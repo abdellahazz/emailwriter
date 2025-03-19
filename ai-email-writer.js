@@ -154,13 +154,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Update the selected size display
             if (selectedSize === 'Very Short') {
-                selectedSizeElement.textContent = 'VS';
+                selectedSizeElement.textContent = 'Very Short';
             } else if (selectedSize === 'Short') {
-                selectedSizeElement.textContent = 'S';
+                selectedSizeElement.textContent = 'Short';
             } else if (selectedSize === 'Medium') {
-                selectedSizeElement.textContent = 'M';
+                selectedSizeElement.textContent = 'Meduim';
             } else if (selectedSize === 'Detailed') {
-                selectedSizeElement.textContent = 'L';
+                selectedSizeElement.textContent = 'Long';
             }
         });
     });
