@@ -1,5 +1,3 @@
-
-<script>
 document.addEventListener('DOMContentLoaded', function () {
     const editorContent = document.getElementById('editor-content');
     const recipientInput = document.getElementById('recipient-input');
@@ -19,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Track selected values
     let selectedOption = 'rewrite'; // Default option
     let selectedLanguage = 'en'; // Default language
-    let selectedTone = 'Casual'; // Default tone
-    let selectedSize = 'Short'; // Default size
+    let selectedTone = 'Professional'; // Default tone
+    let selectedSize = 'Medium'; // Default size
 
     // Get all dropdown options
     const languageOptions = document.querySelectorAll('#languageDropdown + .dropdown-menu .dropdown-item');
@@ -41,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.option-button[data-option="rewrite"]').classList.add('active');
     rewriteOptions.classList.remove('d-none');
     selectedLanguageElement.textContent = 'EN';
-    selectedToneElement.textContent = 'Casual';
-    selectedSizeElement.textContent = 'Short';
+    selectedToneElement.textContent = 'Professional';
+    selectedSizeElement.textContent = 'M';
 
     // Handle option selection
     optionButtons.forEach(button => {
@@ -79,23 +77,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Update the selected language display
             if (selectedLanguage === 'xx') {
-                selectedLanguageElement.textContent = 'Auto';
+                selectedLanguageElement.innerHTML = '<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image">';
             } else if (selectedLanguage === 'en') {
                 selectedLanguageElement.textContent = 'EN';
             } else if (selectedLanguage === 'en-gb') {
-                selectedLanguageElement.textContent = 'EN (GB)';
+                selectedLanguageElement.textContent = 'EN';
             } else if (selectedLanguage === 'en-us') {
-                selectedLanguageElement.textContent = 'EN (US)';
+                selectedLanguageElement.textContent = 'EN';
             } else if (selectedLanguage === 'de') {
                 selectedLanguageElement.textContent = 'DE';
             } else if (selectedLanguage === 'de-ch') {
-                selectedLanguageElement.textContent = 'DE (CH)';
+                selectedLanguageElement.textContent = 'DE';
             } else if (selectedLanguage === 'fr') {
                 selectedLanguageElement.textContent = 'FR';
             } else if (selectedLanguage === 'it') {
                 selectedLanguageElement.textContent = 'IT';
             } else if (selectedLanguage === 'es') {
                 selectedLanguageElement.textContent = 'ES';
+            } else if (selectedLanguage === 'es-la') {
+                selectedLanguageElement.textContent = 'ES';
+            } else if (selectedLanguage === 'es-es') {
+                selectedLanguageElement.textContent = 'ES';
+            } else if (selectedLanguage === 'ms') {
+                selectedLanguageElement.textContent = 'MS';
+            } else if (selectedLanguage === 'pt') {
+                selectedLanguageElement.textContent = 'PT';
+            } else if (selectedLanguage === 'pt-br') {
+                selectedLanguageElement.textContent = 'PT';
+            } else if (selectedLanguage === 'pt-pt') {
+                selectedLanguageElement.textContent = 'PT';
+            } else if (selectedLanguage === 'sv') {
+                selectedLanguageElement.textContent = 'SV';
+            } else if (selectedLanguage === 'tr') {
+                selectedLanguageElement.textContent = 'TR';
+            } else if (selectedLanguage === 'nl') {
+                selectedLanguageElement.textContent = 'NL';
+            } else if (selectedLanguage === 'is') {
+                selectedLanguageElement.textContent = 'IS';
+            } else if (selectedLanguage === 'da') {
+                selectedLanguageElement.textContent = 'DA';
+            } else if (selectedLanguage === 'fi') {
+                selectedLanguageElement.textContent = 'FI';
+            } else if (selectedLanguage === 'el') {
+                selectedLanguageElement.textContent = 'EL';
+            } else if (selectedLanguage === 'hu') {
+                selectedLanguageElement.textContent = 'HU';
+            } else if (selectedLanguage === 'pl') {
+                selectedLanguageElement.textContent = 'PL';
             }
         });
     });
@@ -124,16 +152,14 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('active');
 
             // Update the selected size display
-            if (selectedSize === 'auto') {
-                selectedSizeElement.textContent = 'Auto';
-            } else if (selectedSize === 'Very Short') {
-                selectedSizeElement.textContent = 'Very Short ';
+            if (selectedSize === 'Very Short') {
+                selectedSizeElement.textContent = 'VS';
             } else if (selectedSize === 'Short') {
-                selectedSizeElement.textContent = 'Short';
+                selectedSizeElement.textContent = 'S';
             } else if (selectedSize === 'Medium') {
-                selectedSizeElement.textContent = 'Meduim';
+                selectedSizeElement.textContent = 'M';
             } else if (selectedSize === 'Detailed') {
-                selectedSizeElement.textContent = 'Long';
+                selectedSizeElement.textContent = 'L';
             }
         });
     });
@@ -160,15 +186,58 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Track if the "Copy to Clipboard" button has been created
-    let copyButton = null;
-    let copiedText = null;
+    // Handle copy button
+    const copyButton = document.querySelector('button[title="Copy to Clipboard"]');
+    let copiedText = document.querySelector('.copied-text');
+
+    // Function to get formatted text without HTML tags
+    function getFormattedText() {
+        let content = editorContent.innerHTML
+            .replace(/<\/?b>/g, '**') // Replace bold tags with **
+            .replace(/<\/?i>/g, '*') // Replace italic tags with *
+            .replace(/<\/?u>/g, '_') // Replace underline tags with _
+            .replace(/<\/?strike>/g, '~') // Replace strike tags with ~
+            .replace(/<\/?div>/g, '\n\n') // Replace div tags with paragraph breaks
+            .replace(/<\/?li>/g, '\n• ') // Replace list items with bullet points
+            .replace(/<\/?ol>/g, '\n') // Replace ordered list tags
+            .replace(/<\/?ul>/g, '\n') // Replace unordered list tags
+            .replace(/<\/?br>/g, '\n') // Replace line breaks
+            .replace(/<\/?[pP]>/g, '\n\n'); // Replace paragraph tags
+
+        // Handle links by extracting the text and URL
+        content = content.replace(/<a\s+href\s*=\s*["'](.*?)["'](.*?)>(.*?)<\/a>/g, '$3 ($1)');
+
+        // Remove any remaining HTML tags
+        content = content.replace(/<\/?[^>]+(>|$)/g, '');
+
+        // Handle nested lists by indenting
+        content = content.replace(/(\n• )(\n• )/g, '\n  • $2');
+
+        return content;
+    }
+
+    copyButton.addEventListener('click', function () {
+        const formattedText = getFormattedText();
+        navigator.clipboard.writeText(formattedText).then(function () {
+            copiedText.style.display = 'block';
+            setTimeout(function () {
+                copiedText.style.display = 'none';
+            }, 1000);
+        }, function (err) {
+            console.error('Could not copy text:', err);
+        });
+    });
 
     // Improve button click event
     improveButton.addEventListener('click', function () {
         const recipientName = recipientInput.value.trim();
         const senderName = senderInput.value.trim();
-        const emailBody = editorContent.innerHTML;
+        let emailBody = editorContent.innerHTML.trim();
+
+        // If the editor is empty, use the placeholder text
+        if (!emailBody) {
+            emailBody = editorContent.getAttribute('data-placeholder');
+        }
 
         // Clear the time saved message
         timeSavedElement.textContent = '';
@@ -176,6 +245,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Show loading state
         improveButton.textContent = 'Processing...';
         improveButton.disabled = true;
+
+        // Disable editor content while processing
+        editorContent.contentEditable = 'false';
 
         // Map selected option to API kind
         const kindMap = {
@@ -189,14 +261,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Prepare data for API call
         const requestData = {
             kind: kind,
-            sender: senderName, // Fixed sender name
-            recipients_line: recipientName, // Recipient name
-            stream: true, // Always true as per API
-            language: selectedLanguage, // Selected language
-            tone: selectedTone, // Selected tone
-            output_length: selectedSize, // Selected size
-            draft_id: crypto.randomUUID(), // Fixed draft ID
-            prompt_input: emailBody // Email body as prompt input
+            sender: senderName,
+            recipients_line: recipientName,
+            stream: true,
+            language: selectedLanguage,
+            tone: selectedTone,
+            output_length: selectedSize,
+            draft_id: crypto.randomUUID(),
+            prompt_input: emailBody
         };
 
         console.log('Request Data:', requestData);
@@ -209,19 +281,18 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Origin': 'https://www.maestrolabs.com/some-page.html' // Required header
+                'Origin': 'https://www.maestrolabs.com/some-page.html'
             },
             body: JSON.stringify(requestData)
         })
             .then(response => {
                 if (!response.ok) {
-                    // Log the response status and text for debugging
-                    console.error('Response Status:', response.status);
                     return response.text().then(text => {
+                        console.error('Response Status:', response.status);
                         console.error('Response Text:', text);
-                        if (text.includes("Request was throttled")) {
-                            errorMessageElement.innerHTML = 'Your token was expired, to get more emails please <a href="https://maestrolabs.com/signup" target="_blank" style="color: blue; text-decoration: underline;">sign up for free</a>.';
-                            errorMessageElement.style.display = "block";
+                        if (text.includes('Request was throttled')) {
+                            errorMessageElement.innerHTML = 'Your token has expired. To get more emails and enjoy a 14-day free trial with more features, install it on <a href="https://appsource.microsoft.com/en-us/product/office/WA200005168?mktcmpid=-get-teamsmaestro-subscri&amp;src=website" target="_blank" style="color: blue; text-decoration: underline;">Outlook</a> or <a href="https://chromewebstore.google.com/detail/mailmaestro-gmail-ai-assi/hjdkljkgenkplcgeecgjjgijpipnneai?pli=1&amp;utm_source=website&amp;utm_medium=organic&amp;utm_campaign=-get-teamsmaestro-subscri" target="_blank" style="color: blue; text-decoration: underline;">Gmail</a>.';
+                            errorMessageElement.style.display = 'block';
                         } else {
                             throw new Error(`Server responded with ${response.status}: ${text}`);
                         }
@@ -247,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 const textNode = document.createTextNode(word + ' ');
                                 editorContent.appendChild(textNode);
                                 currentWordIndex++;
-                                setTimeout(displayNextWord, 50); // Reduced delay to 50ms
+                                setTimeout(displayNextWord, 50);
                             } else {
                                 const lineBreak = document.createElement('br');
                                 editorContent.appendChild(lineBreak);
@@ -260,14 +331,17 @@ document.addEventListener('DOMContentLoaded', function () {
                                     const seconds = Math.floor(timeDiff / 1000);
 
                                     // Calculate saved time based on the observed ratio (44.83x)
-                                    const savedSeconds = Math.floor(seconds * 44.83); // Total saved seconds
-                                    const savedMinutes = Math.floor(savedSeconds / 60); // Convert to minutes
-                                    const remainingSavedSeconds = savedSeconds % 60; // Remaining seconds
+                                    const savedSeconds = Math.floor(seconds * 44.83);
+                                    const savedMinutes = Math.floor(savedSeconds / 60);
+                                    const remainingSavedSeconds = savedSeconds % 60;
 
                                     // Display the time saved message
-                                    timeSavedElement.innerHTML = `<strong>Written in ${seconds} secs</strong> and saved <span class="text-success">${savedMinutes} min</span> and <span class="text-primary">${remainingSavedSeconds} sec</span> of your time.`;
+                                    timeSavedElement.innerHTML = `<strong>Written in ${seconds} secs</strong> and saved <span class="text-success">${savedMinutes} min</span> and <span class="text-success">${remainingSavedSeconds} sec</span> of your time.`;
+
+                                    // Re-enable editor content
+                                    editorContent.contentEditable = 'true';
                                 } else {
-                                    setTimeout(displayNextLine, 50); // Reduced delay to 50ms
+                                    setTimeout(displayNextLine, 50);
                                 }
                             }
                         }
@@ -278,47 +352,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 editorContent.innerHTML = ''; // Clear the editor content
                 displayNextLine();
-
-                // Add or update the "Copy to Clipboard" button
-                if (!copyButton) {
-                    copyButton = document.createElement('button');
-                    copyButton.textContent = 'Copy to Clipboard';
-                    copyButton.className = 'btn btn-purple';
-                    const copyButtonContainer = document.createElement('div');
-                    copyButtonContainer.className = 'copy-button-container';
-                    copyButtonContainer.appendChild(copyButton);
-
-                    // Create the "Copied!" text element
-                    copiedText = document.createElement('div');
-                    copiedText.className = 'copied-text';
-                    copiedText.textContent = 'Copied!';
-                    copiedText.style.display = 'none'; // Initially hidden
-                    copyButtonContainer.appendChild(copiedText);
-
-                    // Append the container to the editor content's parent node
-                    editorContent.parentNode.appendChild(copyButtonContainer);
-                }
-
-                // Update the copy button functionality
-                copyButton.onclick = function () {
-                    navigator.clipboard.writeText(improvedText).then(function () {
-                        copiedText.style.display = 'block'; // Show the "Copied!" text
-                        setTimeout(function () {
-                            copiedText.style.display = 'none'; // Hide the "Copied!" text after 1 second
-                        }, 1000);
-                    }, function (err) {
-                        console.error('Could not copy text: ', err);
-                    });
-                };
             })
             .catch(error => {
                 console.error('Error:', error);
+                // Re-enable editor content if there's an error
+                editorContent.contentEditable = 'true';
             })
             .finally(() => {
                 // Reset button state
                 improveButton.textContent = 'Improve →';
                 improveButton.disabled = false;
+                // Re-enable editor content in case it wasn't re-enabled already
+                editorContent.contentEditable = 'true';
             });
     });
 });
-</script>
