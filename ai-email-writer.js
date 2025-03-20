@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Set initial active option
     document.querySelector('.option-button[data-option="rewrite"]').classList.add('active');
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     selectedLanguageElement.textContent = getLanguageDisplayText('Auto', isMobileDevice);
     selectedToneElement.textContent = 'Professional';
     selectedSizeElement.textContent = getDisplayText('Medium', isMobileDevice);
