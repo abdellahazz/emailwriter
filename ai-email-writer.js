@@ -43,20 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
     selectedToneElement.textContent = 'Professional';
     selectedSizeElement.textContent = 'Medium';
 
-    // Function to check if it's mobile
-    const isMobile = () => {
-        return window.matchMedia('(max-width: 768px)').matches;
-    };
-
-    // Update initial selected size display
-    const sizeMapping = {
-        'Very Short': isMobile() ? 'VS' : 'Very Short',
-        'Short': isMobile() ? 'S' : 'Short',
-        'Medium': isMobile() ? 'M' : 'Medium',
-        'Detailed': isMobile() ? 'L' : 'Long'
-    };
-    selectedSizeElement.textContent = sizeMapping[selectedSize];
-
     // Handle option selection
     optionButtons.forEach(button => {
         button.addEventListener('click', function () {
@@ -81,6 +67,48 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Function to get appropriate display text based on device
+    function getDisplayText(size, isMobile) {
+        const sizeMap = {
+            'Very Short': isMobile ? 'VS' : 'Very Short',
+            'Short': isMobile ? 'S' : 'Short',
+            'Medium': isMobile ? 'M' : 'Medium',
+            'Detailed': isMobile ? 'L' : 'Long'
+        };
+        return sizeMap[size] || size;
+    }
+
+    // Function to get appropriate language display text based on device
+    function getLanguageDisplayText(lang, isMobile) {
+        const languageMap = {
+            'xx': isMobile ? 'Auto' : 'Auto',
+            'en': isMobile ? 'EN' : 'English',
+            'en-gb': isMobile ? 'EN' : 'English (UK)',
+            'en-us': isMobile ? 'EN' : 'English (US)',
+            'de': isMobile ? 'DE' : 'German',
+            'de-ch': isMobile ? 'DE' : 'German (Swiss)',
+            'fr': isMobile ? 'FR' : 'French',
+            'it': isMobile ? 'IT' : 'Italian',
+            'es': isMobile ? 'ES' : 'Spanish',
+            'es-la': isMobile ? 'ES' : 'Spanish (Latin America)',
+            'es-es': isMobile ? 'ES' : 'Spanish (Spain)',
+            'ms': isMobile ? 'MS' : 'Malay',
+            'pt': isMobile ? 'PT' : 'Portuguese',
+            'pt-br': isMobile ? 'PT' : 'Portuguese (Brazil)',
+            'pt-pt': isMobile ? 'PT' : 'Portuguese (Portugal)',
+            'sv': isMobile ? 'SV' : 'Swedish',
+            'tr': isMobile ? 'TR' : 'Turkish',
+            'nl': isMobile ? 'NL' : 'Dutch',
+            'is': isMobile ? 'IS' : 'Icelandic',
+            'da': isMobile ? 'DA' : 'Danish',
+            'fi': isMobile ? 'FI' : 'Finnish',
+            'el': isMobile ? 'EL' : 'Greek',
+            'hu': isMobile ? 'HU' : 'Hungarian',
+            'pl': isMobile ? 'PL' : 'Polish'
+        };
+        return languageMap[lang] || lang;
+    }
+
     // Handle language selection
     languageOptions.forEach(option => {
         option.addEventListener('click', function () {
@@ -90,56 +118,11 @@ document.addEventListener('DOMContentLoaded', function () {
             languageOptions.forEach(opt => opt.classList.remove('active'));
             this.classList.add('active');
 
+            // Check if mobile device
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
             // Update the selected language display
-            if (selectedLanguage === 'xx') {
-                selectedLanguageElement.textContent = 'Auto';
-            } else if (selectedLanguage === 'en') {
-                selectedLanguageElement.textContent = 'EN';
-            } else if (selectedLanguage === 'en-gb') {
-                selectedLanguageElement.textContent = 'EN';
-            } else if (selectedLanguage === 'en-us') {
-                selectedLanguageElement.textContent = 'EN';
-            } else if (selectedLanguage === 'de') {
-                selectedLanguageElement.textContent = 'DE';
-            } else if (selectedLanguage === 'de-ch') {
-                selectedLanguageElement.textContent = 'DE';
-            } else if (selectedLanguage === 'fr') {
-                selectedLanguageElement.textContent = 'FR';
-            } else if (selectedLanguage === 'it') {
-                selectedLanguageElement.textContent = 'IT';
-            } else if (selectedLanguage === 'es') {
-                selectedLanguageElement.textContent = 'ES';
-            } else if (selectedLanguage === 'es-la') {
-                selectedLanguageElement.textContent = 'ES';
-            } else if (selectedLanguage === 'es-es') {
-                selectedLanguageElement.textContent = 'ES';
-            } else if (selectedLanguage === 'ms') {
-                selectedLanguageElement.textContent = 'MS';
-            } else if (selectedLanguage === 'pt') {
-                selectedLanguageElement.textContent = 'PT';
-            } else if (selectedLanguage === 'pt-br') {
-                selectedLanguageElement.textContent = 'PT';
-            } else if (selectedLanguage === 'pt-pt') {
-                selectedLanguageElement.textContent = 'PT';
-            } else if (selectedLanguage === 'sv') {
-                selectedLanguageElement.textContent = 'SV';
-            } else if (selectedLanguage === 'tr') {
-                selectedLanguageElement.textContent = 'TR';
-            } else if (selectedLanguage === 'nl') {
-                selectedLanguageElement.textContent = 'NL';
-            } else if (selectedLanguage === 'is') {
-                selectedLanguageElement.textContent = 'IS';
-            } else if (selectedLanguage === 'da') {
-                selectedLanguageElement.textContent = 'DA';
-            } else if (selectedLanguage === 'fi') {
-                selectedLanguageElement.textContent = 'FI';
-            } else if (selectedLanguage === 'el') {
-                selectedLanguageElement.textContent = 'EL';
-            } else if (selectedLanguage === 'hu') {
-                selectedLanguageElement.textContent = 'HU';
-            } else if (selectedLanguage === 'pl') {
-                selectedLanguageElement.textContent = 'PL';
-            }
+            selectedLanguageElement.textContent = getLanguageDisplayText(selectedLanguage, isMobileDevice);
         });
     });
 
@@ -166,16 +149,24 @@ document.addEventListener('DOMContentLoaded', function () {
             sizeOptions.forEach(opt => opt.classList.remove('active'));
             this.classList.add('active');
 
-            // Update the selected size display based on device
-            const sizeMapping = {
-                'Very Short': isMobile() ? 'VS' : 'Very Short',
-                'Short': isMobile() ? 'S' : 'Short',
-                'Medium': isMobile() ? 'M' : 'Medium',
-                'Detailed': isMobile() ? 'L' : 'Long'
-            };
-
-            selectedSizeElement.textContent = sizeMapping[selectedSize];
+            // Check if mobile device
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            // Update the selected size display
+            selectedSizeElement.textContent = getDisplayText(selectedSize, isMobileDevice);
         });
+    });
+
+    // Initial setup for selected options
+    document.addEventListener('DOMContentLoaded', function() {
+        if (selectedLanguageElement) {
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            selectedLanguageElement.textContent = getLanguageDisplayText(selectedLanguageElement.textContent, isMobileDevice);
+        }
+        if (selectedSizeElement) {
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            selectedSizeElement.textContent = getDisplayText(selectedSizeElement.textContent, isMobileDevice);
+        }
     });
 
     // Text editor buttons
