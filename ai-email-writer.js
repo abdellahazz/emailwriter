@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error('Response Status:', response.status);
                         console.error('Response Text:', text);
                         if (text.includes('Request was throttled')) {
-                            errorMessageElement.innerHTML = 'Your token has expired. To get more emails and enjoy a 14-day free trial with more features, install it on <a href="https://appsource.microsoft.com/en-us/product/office/WA200005168?mktcmpid=-get-teamsmaestro-subscri&amp;src=website" target="_blank" style="color: blue; text-decoration: underline;">Outlook</a> or <a href="https://chromewebstore.google.com/detail/mailmaestro-gmail-ai-assi/hjdkljkgenkplcgeecgjjgijpipnneai?pli=1&amp;utm_source=website&amp;utm_medium=organic&amp;utm_campaign=-get-teamsmaestro-subscri" target="_blank" style="color: blue; text-decoration: underline;">Gmail</a>.';
+                            errorMessageElement.innerHTML = 'You&apos;ve used all 5 free requests for today. To continue, install it on <a href="https://appsource.microsoft.com/en-us/product/office/WA200005168?mktcmpid=get-ai-email-writer&amp;src=website-ai-email-writer" target="_blank" style="color: blue; text-decoration: underline;">Outlook</a> or <a href="https://chromewebstore.google.com/detail/mailmaestro-gmail-ai-assi/hjdkljkgenkplcgeecgjjgijpipnneai?pli=1&amp;utm_source=website&amp;utm_medium=organic&amp;utm_campaign=ai-email-writer" target="_blank" style="color: blue; text-decoration: underline;">Gmail</a>.';
                             errorMessageElement.style.display = 'block';
                         } else {
                             throw new Error(`Server responded with ${response.status}: ${text}`);
