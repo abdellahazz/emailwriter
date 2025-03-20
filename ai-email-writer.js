@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Update the selected language display
             if (selectedLanguage === 'xx') {
-                selectedLanguageElement.innerHTML = '<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image">';
+                //selectedLanguageElement.innerHTML = '<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image">';
+                selectedLanguageElement.textContent = 'Auto';
             } else if (selectedLanguage === 'en') {
                 selectedLanguageElement.textContent = 'EN';
             } else if (selectedLanguage === 'en-gb') {
