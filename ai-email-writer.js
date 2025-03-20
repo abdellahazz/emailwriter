@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Track selected values
     let selectedOption = 'rewrite'; // Default option
-    let selectedLanguage = 'en'; // Default language
+    let selectedLanguage = 'xx'; // Default language
     let selectedTone = 'Professional'; // Default tone
     let selectedSize = 'Medium'; // Default size
 
@@ -39,9 +39,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Set initial active option
     document.querySelector('.option-button[data-option="rewrite"]').classList.add('active');
     rewriteOptions.classList.remove('d-none');
-    selectedLanguageElement.textContent = 'EN';
+    selectedLanguageElement.textContent = 'Auto';
     selectedToneElement.textContent = 'Professional';
-    selectedSizeElement.textContent = 'Meduim';
+    selectedSizeElement.textContent = 'Medium';
 
     // Handle option selection
     optionButtons.forEach(button => {
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (selectedSize === 'Short') {
                 selectedSizeElement.textContent = 'Short';
             } else if (selectedSize === 'Medium') {
-                selectedSizeElement.textContent = 'Meduim';
+                selectedSizeElement.textContent = 'Medium';
             } else if (selectedSize === 'Detailed') {
                 selectedSizeElement.textContent = 'Long';
             }
