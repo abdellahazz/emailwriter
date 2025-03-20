@@ -38,34 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Set initial active option
     document.querySelector('.option-button[data-option="rewrite"]').classList.add('active');
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    selectedLanguageElement.textContent = getLanguageDisplayText('xx', isMobileDevice);
-    selectedToneElement.textContent = 'Professional';
-    selectedSizeElement.textContent = getDisplayText('Medium', isMobileDevice);
-
-    // Handle option selection
-    optionButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            // Remove active class from all buttons
-            optionButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            selectedOption = this.getAttribute('data-option');
-
-            // Hide all options
-            fixTyposOptions.classList.add('d-none');
-            polishOptions.classList.add('d-none');
-            rewriteOptions.classList.add('d-none');
-
-            // Show the appropriate options based on the selected option
-            if (selectedOption === 'fix-typos') {
-                fixTyposOptions.classList.remove('d-none');
-            } else if (selectedOption === 'polish') {
-                polishOptions.classList.remove('d-none');
-            } else if (selectedOption === 'rewrite') {
-                rewriteOptions.classList.remove('d-none');
-            }
-        });
-    });
+    rewriteOptions.classList.remove('d-none');
 
     // Function to get appropriate display text based on device
     function getDisplayText(size, isMobile) {
@@ -81,7 +54,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to get appropriate language display text based on device
     function getLanguageDisplayText(lang, isMobile) {
         const languageMap = {
-            'xx': isMobile ? `<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image">` : 'Auto',
+            'xx': isMobile ? 
+                `<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image">` : 
+                'Auto',
             'en': isMobile ? 'EN' : 'English',
             'en-gb': isMobile ? 'EN' : 'English (UK)',
             'en-us': isMobile ? 'EN' : 'English (US)',
@@ -109,6 +84,30 @@ document.addEventListener('DOMContentLoaded', function () {
         return languageMap[lang] || lang;
     }
 
+    // Handle option selection
+    optionButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove active class from all buttons
+            optionButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            selectedOption = this.getAttribute('data-option');
+
+            // Hide all options
+            fixTyposOptions.classList.add('d-none');
+            polishOptions.classList.add('d-none');
+            rewriteOptions.classList.add('d-none');
+
+            // Show the appropriate options based on the selected option
+            if (selectedOption === 'fix-typos') {
+                fixTyposOptions.classList.remove('d-none');
+            } else if (selectedOption === 'polish') {
+                polishOptions.classList.remove('d-none');
+            } else if (selectedOption === 'rewrite') {
+                rewriteOptions.classList.remove('d-none');
+            }
+        });
+    });
+
     // Handle language selection
     languageOptions.forEach(option => {
         option.addEventListener('click', function () {
@@ -122,7 +121,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             // Update the selected language display
-            selectedLanguageElement.textContent = getLanguageDisplayText(selectedLanguage, isMobileDevice);
+            const displayText = getLanguageDisplayText(selectedLanguage, isMobileDevice);
+            if (typeof displayText === 'string') {
+                selectedLanguageElement.textContent = displayText;
+            } else {
+                selectedLanguageElement.innerHTML = displayText;
+            }
         });
     });
 
@@ -158,16 +162,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Initial setup for selected options
-    document.addEventListener('DOMContentLoaded', function() {
-        if (selectedLanguageElement) {
-            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            selectedLanguageElement.textContent = getLanguageDisplayText(selectedLanguageElement.textContent, isMobileDevice);
-        }
-        if (selectedSizeElement) {
-            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            selectedSizeElement.textContent = getDisplayText(selectedSizeElement.textContent, isMobileDevice);
-        }
-    });
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const initialLanguageDisplay = getLanguageDisplayText('xx', isMobileDevice);
+    if (typeof initialLanguageDisplay === 'string') {
+        selectedLanguageElement.textContent = initialLanguageDisplay;
+    } else {
+        selectedLanguageElement.innerHTML = initialLanguageDisplay;
+    }
+    selectedToneElement.textContent = 'Professional';
+    selectedSizeElement.textContent = getDisplayText('Medium', isMobileDevice);
 
     // Text editor buttons
     const editorButtons = document.querySelectorAll('.btn-editor');
