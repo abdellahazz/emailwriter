@@ -43,6 +43,20 @@ document.addEventListener('DOMContentLoaded', function () {
     selectedToneElement.textContent = 'Professional';
     selectedSizeElement.textContent = 'Medium';
 
+    // Function to check if it's mobile
+    const isMobile = () => {
+        return window.matchMedia('(max-width: 768px)').matches;
+    };
+
+    // Update initial selected size display
+    const sizeMapping = {
+        'Very Short': isMobile() ? 'VS' : 'Very Short',
+        'Short': isMobile() ? 'S' : 'Short',
+        'Medium': 'Medium',
+        'Detailed': isMobile() ? 'L' : 'Long'
+    };
+    selectedSizeElement.textContent = sizeMapping[selectedSize];
+
     // Handle option selection
     optionButtons.forEach(button => {
         button.addEventListener('click', function () {
@@ -78,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Update the selected language display
             if (selectedLanguage === 'xx') {
-                //selectedLanguageElement.innerHTML = '<img src="https://cdn.prod.website-files.com/66d1d32f08a233fad81d614e/67d4200ca1b8c8d4802a06b3_wand.and.stars.png" alt="Auto" class="language-image">';
                 selectedLanguageElement.textContent = 'Auto';
             } else if (selectedLanguage === 'en') {
                 selectedLanguageElement.textContent = 'EN';
@@ -153,16 +166,15 @@ document.addEventListener('DOMContentLoaded', function () {
             sizeOptions.forEach(opt => opt.classList.remove('active'));
             this.classList.add('active');
 
-            // Update the selected size display
-            if (selectedSize === 'Very Short') {
-                selectedSizeElement.textContent = 'Very Short';
-            } else if (selectedSize === 'Short') {
-                selectedSizeElement.textContent = 'Short';
-            } else if (selectedSize === 'Medium') {
-                selectedSizeElement.textContent = 'Medium';
-            } else if (selectedSize === 'Detailed') {
-                selectedSizeElement.textContent = 'Long';
-            }
+            // Update the selected size display based on device
+            const sizeMapping = {
+                'Very Short': isMobile() ? 'VS' : 'Very Short',
+                'Short': isMobile() ? 'S' : 'Short',
+                'Medium': 'Medium',
+                'Detailed': isMobile() ? 'L' : 'Long'
+            };
+
+            selectedSizeElement.textContent = sizeMapping[selectedSize];
         });
     });
 
