@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to get appropriate language display text based on device
     function getLanguageDisplayText(lang, isMobile) {
         const languageMap = {
-            'xx': isMobile ? 'Auto' : 'Auto',
+            'xx': isMobile ? 'A' : 'Auto',
             'en': isMobile ? 'EN' : 'English',
             'en-gb': isMobile ? 'EN' : 'English (UK)',
             'en-us': isMobile ? 'EN' : 'English (US)',
