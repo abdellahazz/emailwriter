@@ -38,10 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Set initial active option
     document.querySelector('.option-button[data-option="rewrite"]').classList.add('active');
-    rewriteOptions.classList.remove('d-none');
-    selectedLanguageElement.textContent = 'Auto';
+    selectedLanguageElement.textContent = getLanguageDisplayText('Auto', isMobileDevice);
     selectedToneElement.textContent = 'Professional';
-    selectedSizeElement.textContent = 'Medium';
+    selectedSizeElement.textContent = getDisplayText('Medium', isMobileDevice);
 
     // Handle option selection
     optionButtons.forEach(button => {
