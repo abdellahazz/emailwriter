@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sizeMapping = {
         'Very Short': isMobile() ? 'VS' : 'Very Short',
         'Short': isMobile() ? 'S' : 'Short',
-        'Medium': 'Medium',
+        'Meduim': isMobile() ? 'M' : 'Meduim',
         'Detailed': isMobile() ? 'L' : 'Long'
     };
     selectedSizeElement.textContent = sizeMapping[selectedSize];
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const sizeMapping = {
                 'Very Short': isMobile() ? 'VS' : 'Very Short',
                 'Short': isMobile() ? 'S' : 'Short',
-                'Medium': 'Medium',
+                'Meduim': isMobile() ? 'M' : 'Meduim',
                 'Detailed': isMobile() ? 'L' : 'Long'
             };
 
