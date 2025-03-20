@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error('Response Status:', response.status);
                         console.error('Response Text:', text);
                         if (text.includes('Request was throttled')) {
-                            errorMessageElement.innerHTML = 'You&apos;ve used all 5 free requests for today. To continue, install it on <a href="https://appsource.microsoft.com/en-us/product/office/WA200005168?mktcmpid=homepage&src=website" target="_blank" style="color: blue; text-decoration: underline;">Outlook</a> or <a href="https://chromewebstore.google.com/detail/mailmaestro-gmail-ai-assi/hjdkljkgenkplcgeecgjjgijpipnneai?pli=1" target="_blank" style="color: blue; text-decoration: underline;">Gmail</a> and enjoy a 14-day free trial with extra features.';
+                            errorMessageElement.innerHTML = 'You&apos;ve used all 5 free requests for today. To continue, install it on <a href="https://appsource.microsoft.com/en-us/product/office/WA200005168?mktcmpid=homepage&src=website" target="_blank" style="color: blue; text-decoration: underline;">Outlook</a> or <a href="https://chromewebstore.google.com/detail/mailmaestro-gmail-ai-assi/hjdkljkgenkplcgeecgjjgijpipnneai?pli=1&utm_source=website&utm_medium=organic&utm_campaign=homepage" target="_blank" style="color: blue; text-decoration: underline;">Gmail</a> and enjoy a 14-day free trial with extra features.';
                             errorMessageElement.style.display = 'block';
                         } else {
                             throw new Error(`Server responded with ${response.status}: ${text}`);
