@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let selectedOption = 'rewrite'; // Default option
     let selectedLanguage = 'xx'; // Default language
     let selectedTone = 'Professional'; // Default tone
-    let selectedSize = 'Medium'; // Default size
+    let selectedSize = 'Short'; // Default size
 
     // Get all dropdown options
     const languageOptions = document.querySelectorAll('#languageDropdown + .dropdown-menu .dropdown-item');
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     selectedLanguageElement.textContent = getLanguageDisplayText('xx', isMobileDevice);
     selectedToneElement.textContent = 'Professional';
-    selectedSizeElement.textContent = getDisplayText('Medium', isMobileDevice);
+    selectedSizeElement.textContent = getDisplayText('Short', isMobileDevice);
 
     // Handle option selection
     optionButtons.forEach(button => {
